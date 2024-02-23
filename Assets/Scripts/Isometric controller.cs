@@ -24,6 +24,12 @@ public class Isometriccontroller : MonoBehaviour
     [SerializeField] LayerMask _groundLayer;
 
     bool _isGrounded;
+
+    public float attackRange = 1f;
+
+    public int attackDamage = 10;
+
+    public LayerMask enemyLayer;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,11 +45,32 @@ public class Isometriccontroller : MonoBehaviour
         Movement();
 
         Jump();
+
+        if(Input.GetKeyDown("e"))
+        {
+            Attack();
+        }
+    }
+
+    void Attack()
+    {
+        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, attackRange, enemyLayer);
+
+        foreach (Collider enemy in hitEnemies)
+        {
+            Debug.Log("Hit" + enemy.name);
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 
     void Movement()
     {
-        Vector3 direction = new Vector3(_horizontal, 0, _vertical);
+        Vector3 direction = new Vector3(-_vertical, 0, _horizontal);
         
         if(direction != Vector3.zero)
         {
