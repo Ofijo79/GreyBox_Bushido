@@ -17,6 +17,8 @@ public class Isometriccontroller : MonoBehaviour
     [SerializeField] float _jumpHeigh = 1;
     float _gravity = -9.81f;
 
+    Animator _animator;
+
     Vector3 _playerGravity;
     //variables sensor
     [SerializeField] Transform _sensorPosition;
@@ -34,6 +36,7 @@ public class Isometriccontroller : MonoBehaviour
     void Start()
     {
         _controller = GetComponent<CharacterController>();
+        _animator = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -71,6 +74,9 @@ public class Isometriccontroller : MonoBehaviour
     void Movement()
     {
         Vector3 direction = new Vector3(-_vertical, 0, _horizontal);
+
+        _animator.SetFloat("VelX", 0);
+        _animator.SetFloat("VelZ", direction.magnitude);
         
         if(direction != Vector3.zero)
         {
