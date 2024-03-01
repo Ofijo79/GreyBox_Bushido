@@ -32,6 +32,8 @@ public class Isometriccontroller : MonoBehaviour
     public int attackDamage = 10;
 
     public LayerMask enemyLayer;
+
+    private bool canMove = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -45,13 +47,25 @@ public class Isometriccontroller : MonoBehaviour
         _horizontal = Input.GetAxisRaw("Horizontal");
         _vertical = Input.GetAxisRaw("Vertical");
 
-        Movement();
+        if(canMove)
+        {
+            Movement();
+        }
 
         Jump();
 
         if(Input.GetKeyDown("e"))
         {
             Attack();
+        }
+
+        if(Input.GetKeyDown("r"))
+        {
+            Block();
+        }
+        if(Input.GetKeyUp("r"))
+        {
+            DontBlock();
         }
     }
 
@@ -63,6 +77,20 @@ public class Isometriccontroller : MonoBehaviour
         {
             Debug.Log("Hit" + enemy.name);
         }
+    }
+    
+    void Block()
+    {
+        _animator.SetBool("IsBlocking", true);
+        //canMove = false;
+        _playerSpeed = 2;
+    }
+
+    void DontBlock()
+    {
+        _animator.SetBool("IsBlocking", false);
+        //canMove = true;
+        _playerSpeed = 5;
     }
 
     void OnDrawGizmosSelected()
