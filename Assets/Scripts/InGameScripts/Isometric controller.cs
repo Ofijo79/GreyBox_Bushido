@@ -5,9 +5,13 @@ using UnityEngine;
 public class Isometriccontroller : MonoBehaviour
 {
     CharacterController _controller;
+    Transform _camera;
+    public GameObject _cameraNormal;
 
     float _horizontal;
     float _vertical;
+
+    GameObject katana;
 
     [SerializeField] float _playerSpeed = 5;
 
@@ -33,12 +37,15 @@ public class Isometriccontroller : MonoBehaviour
 
     public LayerMask enemyLayer;
 
-    private bool canMove = true;
     // Start is called before the first frame update
     void Start()
     {
         _controller = GetComponent<CharacterController>();
         _animator = GetComponentInChildren<Animator>();
+        katana = GameObject.FindGameObjectWithTag("Katana");
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -46,11 +53,9 @@ public class Isometriccontroller : MonoBehaviour
     {
         _horizontal = Input.GetAxisRaw("Horizontal");
         _vertical = Input.GetAxisRaw("Vertical");
+        
+        Movement();
 
-        if(canMove)
-        {
-            Movement();
-        }
 
         Jump();
 
@@ -82,15 +87,13 @@ public class Isometriccontroller : MonoBehaviour
     void Block()
     {
         _animator.SetBool("IsBlocking", true);
-        //canMove = false;
         _playerSpeed = 2;
     }
 
     void DontBlock()
     {
         _animator.SetBool("IsBlocking", false);
-        //canMove = true;
-        _playerSpeed = 5;
+        _playerSpeed = 7;
     }
 
     void OnDrawGizmosSelected()
@@ -113,7 +116,6 @@ public class Isometriccontroller : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, smoothAngle, 0);
             _controller.Move(direction.normalized * _playerSpeed * Time.deltaTime);
         }
-        
     }
 
     void Jump()
