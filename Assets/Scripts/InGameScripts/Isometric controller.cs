@@ -11,8 +11,6 @@ public class Isometriccontroller : MonoBehaviour
     float _horizontal;
     float _vertical;
 
-    GameObject katana;
-
     [SerializeField] float _playerSpeed = 5;
 
     float _turnSmoothVelocity;
@@ -42,7 +40,6 @@ public class Isometriccontroller : MonoBehaviour
     {
         _controller = GetComponent<CharacterController>();
         _animator = GetComponentInChildren<Animator>();
-        katana = GameObject.FindGameObjectWithTag("Katana");
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -55,7 +52,6 @@ public class Isometriccontroller : MonoBehaviour
         _vertical = Input.GetAxisRaw("Vertical");
         
         Movement();
-
 
         Jump();
 
@@ -87,12 +83,14 @@ public class Isometriccontroller : MonoBehaviour
     void Block()
     {
         _animator.SetBool("IsBlocking", true);
+        _animator.SetBool("WalkingBlock", true);
         _playerSpeed = 2;
     }
 
     void DontBlock()
     {
         _animator.SetBool("IsBlocking", false);
+        _animator.SetBool("WalkingBlock", false);
         _playerSpeed = 7;
     }
 
@@ -124,11 +122,12 @@ public class Isometriccontroller : MonoBehaviour
 
         if(_isGrounded && _playerGravity.y < 0)
         {
-            _playerGravity.y = 0;
+            _playerGravity.y = -2;
         }
         if(_isGrounded && Input.GetButtonDown("Jump"))
         {
             _playerGravity.y = Mathf.Sqrt(_jumpHeigh * -2 * _gravity);
+            _animator.SetBool("IsJumping", true);
         }
         _playerGravity.y += _gravity * Time.deltaTime;
         
