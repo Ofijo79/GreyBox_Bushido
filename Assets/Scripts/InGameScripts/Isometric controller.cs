@@ -53,10 +53,7 @@ public class Isometriccontroller : MonoBehaviour
         
         Movement();
 
-        if(Input.GetButtonDown("Jump"))
-        {
-            Jump();
-        }
+        Jump();
 
         if(Input.GetKeyDown("e"))
         {
@@ -138,10 +135,16 @@ public class Isometriccontroller : MonoBehaviour
         if(_isGrounded && Input.GetButtonDown("Jump"))
         {
             _playerGravity.y = Mathf.Sqrt(_jumpHeigh * -2 * _gravity);
-            //_animator.SetBool("IsJumping", true);
+            _animator.SetBool("IsJumping", true);
         }
         _playerGravity.y += _gravity * Time.deltaTime;
         
         _controller.Move(_playerGravity * Time.deltaTime);
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(_sensorPosition.position, _sensorRadius);
     }
 }
