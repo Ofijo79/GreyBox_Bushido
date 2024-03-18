@@ -7631,20 +7631,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3ec2dc6756a484b88fe1afec86d897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cameraNormal: {fileID: 1064377770}
   _playerSpeed: 7
-  _turnSmoothTime: 0.1
   _jumpHeigh: 2
   _sensorPosition: {fileID: 470111515}
   _sensorRadius: 0.1
   _groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  _cameraNormal: {fileID: 1064377770}
+  _turnSmoothTime: 0.1
   attackRange: 1
   attackDamage: 10
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
+  dashDistance: 5
+  dashDuration: 0.5
+  dashCooldown: 2
 --- !u!1 &598131765 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -652209905907201759, guid: b3f0f1b55ceccd44792e0af26773100f, type: 3}
@@ -26477,6 +26480,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1167487139}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1182185714
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 4fdf7f10c09b76648aa1478cced6369b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -8.889685
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4fdf7f10c09b76648aa1478cced6369b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.1687603
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4fdf7f10c09b76648aa1478cced6369b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -7.0361705
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4fdf7f10c09b76648aa1478cced6369b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4fdf7f10c09b76648aa1478cced6369b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4fdf7f10c09b76648aa1478cced6369b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4fdf7f10c09b76648aa1478cced6369b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4fdf7f10c09b76648aa1478cced6369b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4fdf7f10c09b76648aa1478cced6369b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 4fdf7f10c09b76648aa1478cced6369b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4fdf7f10c09b76648aa1478cced6369b, type: 3}
+      propertyPath: m_Name
+      value: Paredes_Techo
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4fdf7f10c09b76648aa1478cced6369b, type: 3}
 --- !u!1001 &1197728125
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26507,7 +26567,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2487294408866813388, guid: 334b6310e6552854888a7e14c819e8c3, type: 3}
       propertyPath: m_XAxis.m_InvertInput
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3587730582963528907, guid: 334b6310e6552854888a7e14c819e8c3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -26619,11 +26679,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7130299524626894869, guid: 334b6310e6552854888a7e14c819e8c3, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.10667711
+      value: 0.10667712
       objectReference: {fileID: 0}
     - target: {fileID: 7130299524626894869, guid: 334b6310e6552854888a7e14c819e8c3, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.6990136
+      value: -0.69901353
       objectReference: {fileID: 0}
     - target: {fileID: 7130299524626894869, guid: 334b6310e6552854888a7e14c819e8c3, type: 3}
       propertyPath: m_LocalRotation.z
@@ -38383,3 +38443,4 @@ SceneRoots:
   - {fileID: 487799659}
   - {fileID: 198522796}
   - {fileID: 362834981}
+  - {fileID: 1182185714}
