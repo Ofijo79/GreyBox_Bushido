@@ -53,11 +53,18 @@ public class Isometriccontroller : MonoBehaviour
         
         Movement();
 
-        Jump();
+        if(Input.GetButtonDown("Jump"))
+        {
+            Jump();
+        }
 
         if(Input.GetKeyDown("e"))
         {
             Attack();
+        }
+        if(Input.GetKeyUp("e"))
+        {
+            StopAttack();
         }
 
         if(Input.GetKeyDown("r"))
@@ -72,6 +79,7 @@ public class Isometriccontroller : MonoBehaviour
 
     void Attack()
     {
+        _animator.SetBool("Attack", true);
         Collider[] hitEnemies = Physics.OverlapSphere(transform.position, attackRange, enemyLayer);
 
         foreach (Collider enemy in hitEnemies)
@@ -79,18 +87,21 @@ public class Isometriccontroller : MonoBehaviour
             Debug.Log("Hit" + enemy.name);
         }
     }
+
+    void StopAttack()
+    {
+       _animator.SetBool("Attack", false); 
+    }
     
     void Block()
     {
         _animator.SetBool("IsBlocking", true);
-        _animator.SetBool("WalkingBlock", true);
         _playerSpeed = 2;
     }
 
     void DontBlock()
     {
         _animator.SetBool("IsBlocking", false);
-        _animator.SetBool("WalkingBlock", false);
         _playerSpeed = 7;
     }
 
@@ -127,7 +138,7 @@ public class Isometriccontroller : MonoBehaviour
         if(_isGrounded && Input.GetButtonDown("Jump"))
         {
             _playerGravity.y = Mathf.Sqrt(_jumpHeigh * -2 * _gravity);
-            _animator.SetBool("IsJumping", true);
+            //_animator.SetBool("IsJumping", true);
         }
         _playerGravity.y += _gravity * Time.deltaTime;
         
