@@ -42,6 +42,7 @@ public class Isometriccontroller : MonoBehaviour
     public float dashDuration = 0.5f;
     public float dashCooldown = 2f;
     private bool isDashing = false;
+    bool isInvulnerable = false;
 
     // Start is called before the first frame update
     void Start()
@@ -164,6 +165,7 @@ public class Isometriccontroller : MonoBehaviour
     IEnumerator PerformDash()
     {
         isDashing = true;
+        isInvulnerable = true;
 
         // Guardar la posición inicial para el dash
         Vector3 startPosition = transform.position;
@@ -185,13 +187,17 @@ public class Isometriccontroller : MonoBehaviour
             // Incrementa el tiempo transcurrido
             elapsedTime += Time.deltaTime;
 
+            _animator.SetBool("Dashing", true);
+
             // Espera hasta el siguiente frame
             yield return null;
+            _animator.SetBool("Dashing", false);
         }
 
         // Espera el tiempo de cooldown antes de permitir otro dash
         yield return new WaitForSeconds(dashCooldown);
 
         isDashing = false;
+        isInvulnerable = false;
     }
 }
