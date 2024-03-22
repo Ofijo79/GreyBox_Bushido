@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class Isometriccontroller : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Isometriccontroller : MonoBehaviour
 
     float _horizontal;
     float _vertical;
+    public Vector3 direction;
 
     [SerializeField] float _playerSpeed = 5;
 
@@ -18,6 +20,9 @@ public class Isometriccontroller : MonoBehaviour
     Animator _animator;
 
     Vector3 _playerGravity;
+
+    [SerializeField] AxisState xAxis;
+    [SerializeField] AxisState yAxis;
     
     //variables sensor
     [SerializeField] Transform _sensorPosition;
@@ -31,6 +36,7 @@ public class Isometriccontroller : MonoBehaviour
     public GameObject _cameraNormal;
     float _turnSmoothVelocity;
     [SerializeField] float _turnSmoothTime = 0.1f;
+    Transform _lookAtTransform;
 
     //Attack
     public float attackRange = 1f;
@@ -49,6 +55,8 @@ public class Isometriccontroller : MonoBehaviour
     {
         _controller = GetComponent<CharacterController>();
         _animator = GetComponentInChildren<Animator>();
+        _lookAtTransform = GameObject.Find("LookAt").transform;
+        _camera = Camera.main.transform;
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -59,6 +67,8 @@ public class Isometriccontroller : MonoBehaviour
     {
         _horizontal = Input.GetAxisRaw("Horizontal");
         _vertical = Input.GetAxisRaw("Vertical");
+        direction = new Vector3(_horizontal, 0, _vertical);
+
         
         Movement();
 
@@ -73,9 +83,17 @@ public class Isometriccontroller : MonoBehaviour
             StopAttack();
         }
 
-        if(Input.GetKeyDown("r"))
+        if(Input.GetKey("r"))
         {
-            Block();
+            if(direction != Vector3.zero)
+            {
+                WalkingBlock();
+            }
+            else
+            {
+                Block();
+            }
+            
         }
         if(Input.GetKeyUp("r"))
         {
@@ -106,13 +124,24 @@ public class Isometriccontroller : MonoBehaviour
     
     void Block()
     {
-        _animator.SetBool("IsBlocking", true);
+         _animator.SetBool("IsBlocking", true);
+         _animator.SetBool("WalkingBlock", false);
+
+        _playerSpeed = 2;
+    }
+
+    void WalkingBlock()
+    {
+        _animator.SetBool("WalkingBlock", true);
+        _animator.SetBool("IsBlocking", false);
+
         _playerSpeed = 2;
     }
 
     void DontBlock()
     {
         _animator.SetBool("IsBlocking", false);
+        _animator.SetBool("WalkingBlock", false);
         _playerSpeed = 7;
     }
 
@@ -124,7 +153,7 @@ public class Isometriccontroller : MonoBehaviour
 
     void Movement()
     {
-        Vector3 direction = new Vector3(-_vertical, 0, _horizontal);
+        /*Vector3 direction = new Vector3(-_vertical, 0, _horizontal);
 
         _animator.SetFloat("VelX", 0);
         _animator.SetFloat("VelZ", direction.magnitude);
@@ -135,12 +164,35 @@ public class Isometriccontroller : MonoBehaviour
             float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _turnSmoothVelocity, _turnSmoothTime);
             transform.rotation = Quaternion.Euler(0, smoothAngle, 0);
             _controller.Move(direction.normalized * _playerSpeed * Time.deltaTime);
+        }*/
+
+        //Vector3 direction = new Vector3(_horizontal, 0, _vertical);
+        direction = new Vector3(_horizontal, 0, _vertical);
+        
+        _animator.SetFloat("VelX", 0);
+        _animator.SetFloat("VelZ", direction.magnitude);
+        
+        if(direction != Vector3.zero)
+        {
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +  _camera.eulerAngles.y;
+
+            Vector3 moveDirection = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+            _controller.Move(moveDirection.normalized * _playerSpeed * Time.deltaTime);
         }
+        
+        Vector3 move = new Vector3(_horizontal, 0, _vertical).normalized;
+
+        xAxis.Update(Time.deltaTime);
+        yAxis.Update(Time.deltaTime);
+
+        transform.rotation = Quaternion.Euler(0, yAxis.Value, 0);
+        _lookAtTransform.eulerAngles = new Vector3(yAxis.Value, transform.eulerAngles.y, 0);
     }
 
     void Jump()
     {
         _isGrounded = Physics.CheckSphere(_sensorPosition.position, _sensorRadius, _groundLayer);
+        _animator.SetBool("IsJumping", !_isGrounded);
 
         if(_isGrounded && _playerGravity.y < 0)
         {
@@ -149,7 +201,7 @@ public class Isometriccontroller : MonoBehaviour
         if(_isGrounded && Input.GetButtonDown("Jump"))
         {
             _playerGravity.y = Mathf.Sqrt(_jumpHeigh * -2 * _gravity);
-            _animator.SetBool("IsJumping", true);
+            //_animator.SetBool("IsJumping", true);
         }        
         _playerGravity.y += _gravity * Time.deltaTime;
         
