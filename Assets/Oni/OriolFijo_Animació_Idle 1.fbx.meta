@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a0bdea81d071ff64693ce96748b05f2f
+guid: cf32728f4da26e342b41af5c3ced51f5
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -33,11 +33,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Run
-      takeName: Esqueleto|EsqueletoAction
-      internalID: -6877751558034246562
+      name: Idle
+      takeName: Armature|ArmatureAction.001
+      internalID: -1422011007694221501
       firstFrame: 0
-      lastFrame: 22
+      lastFrame: 90
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

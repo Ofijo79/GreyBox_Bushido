@@ -4,23 +4,38 @@ using UnityEngine;
 
 public class ScriptBoss : MonoBehaviour
 {
-    UnityEngine.AI.NavMeshAgent navMeshAgent;
-    Transform playerTransform;
+    public Transform playerTransform;
+    private UnityEngine.AI.NavMeshAgent navMeshAgent;
+    Animator _animator;
     // Start is called before the first frame update
     void Start()
     {
         navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        _animator = GetComponent<Animator>();
+
+        if (playerTransform == null)
+        {
+            playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        StartChasingPlayer();
-    }
+        if (playerTransform != null)
+        {
+            // Configura el destino del NavMeshAgent al transform del personaje principal
+            navMeshAgent.SetDestination(playerTransform.position);
 
-    public void StartChasingPlayer()
-    {
-       navMeshAgent.destination = playerTransform.position;
+            // Calcula la dirección hacia el personaje principal
+            Vector3 direccion = (playerTransform.position - transform.position).normalized;
+
+            // Calcula la rotación deseada para mirar hacia el personaje principal
+            Quaternion rotacionDeseada = Quaternion.LookRotation(direccion);
+
+            // Aplica la rotación al enemigo
+            transform.rotation = rotacionDeseada;
+            _animator.SetBool("Run", true);
+        }
     }
 }

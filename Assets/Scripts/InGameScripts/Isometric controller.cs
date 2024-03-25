@@ -180,7 +180,7 @@ public class Isometriccontroller : MonoBehaviour
             _controller.Move(moveDirection.normalized * _playerSpeed * Time.deltaTime);
         }
         
-        Vector3 move = new Vector3(_horizontal, 0, _vertical).normalized;
+        Vector3 move = new Vector3(0, _vertical, _horizontal).normalized;
 
         xAxis.Update(Time.deltaTime);
         yAxis.Update(Time.deltaTime);
