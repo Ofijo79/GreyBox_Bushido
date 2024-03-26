@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ActivationBoss : MonoBehaviour
 {
-    public ScriptBoss enemyScriptObject;
+    ScriptBoss enemyScriptObject;
+    public GameObject vidaBoss;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +24,7 @@ public class ActivationBoss : MonoBehaviour
         if(other.gameObject.CompareTag("Player"))
         {
             enemyScriptObject.enabled = true;
+            vidaBoss.SetActive(true);
         }
     }
 }
