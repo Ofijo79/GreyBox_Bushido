@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2368ab7e331a4ae4c962c89f13d79192
+guid: e2525407abdfa8f4d8dca5ef83a1e69c
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -33,11 +33,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Attack
+      name: Attack2
       takeName: Esqueleto|EsqueletoAction.001
       internalID: 8330357187053516584
       firstFrame: 0
-      lastFrame: 11
+      lastFrame: 15
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
