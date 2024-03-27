@@ -42,6 +42,8 @@ public class Isometriccontroller : MonoBehaviour
     public float attackRange = 1f;
     public int attackDamage = 10;
     public LayerMask enemyLayer;
+    int buttonQuantity;
+    bool canClick;
 
     //Dash
     public float dashDistance = 5f;
@@ -57,6 +59,8 @@ public class Isometriccontroller : MonoBehaviour
         _animator = GetComponentInChildren<Animator>();
         _lookAtTransform = GameObject.Find("LookAt").transform;
         _camera = Camera.main.transform;
+        buttonQuantity = 0;
+        canClick = true;
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -76,12 +80,12 @@ public class Isometriccontroller : MonoBehaviour
 
         if(Input.GetKeyDown("e"))
         {
-            Attack();
+            Combo();
         }
-        if(Input.GetKeyUp("e"))
+        /*if(Input.GetKeyUp("e"))
         {
             StopAttack();
-        }
+        }*/
 
         if(Input.GetKey("r"))
         {
@@ -106,7 +110,7 @@ public class Isometriccontroller : MonoBehaviour
         }
     }
 
-    void Attack()
+    /*void Attack()
     {
         _animator.SetBool("Attack", true);
         Collider[] hitEnemies = Physics.OverlapSphere(transform.position, attackRange, enemyLayer);
@@ -115,12 +119,59 @@ public class Isometriccontroller : MonoBehaviour
         {
             Debug.Log("Hit" + enemy.name);
         }
+    }*/
+
+    void Combo()
+    {
+        if(canClick)
+        {
+            buttonQuantity++;
+        }
+
+        if(buttonQuantity == 1)
+        {
+            _animator.SetInteger("attack", 1);
+        }
     }
 
-    void StopAttack()
+    public void ComboVerification()
+    {
+        canClick = false;
+
+        if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") && buttonQuantity == 1)
+        {
+            _animator.SetInteger("attack", 0);
+            canClick = true;
+            buttonQuantity = 0;
+        }
+        else if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") && buttonQuantity >= 2)
+        {
+            _animator.SetInteger("attack", 2);
+            canClick = true;
+        }
+        else if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack2") && buttonQuantity == 2)
+        {
+            _animator.SetInteger("attack", 0);
+            canClick = true;
+            buttonQuantity = 0;
+        }
+        else if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack2") && buttonQuantity >= 3)
+        {
+            _animator.SetInteger("attack", 3);
+            canClick = true;
+        }
+        else if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack3"))
+        {
+            _animator.SetInteger("attack", 0);
+            canClick = true;
+            buttonQuantity = 0;
+        }
+    }
+
+    /*void StopAttack()
     {
        _animator.SetBool("Attack", false); 
-    }
+    }*/
     
     void Block()
     {
@@ -145,11 +196,11 @@ public class Isometriccontroller : MonoBehaviour
         _playerSpeed = 7;
     }
 
-    void OnDrawGizmosSelected()
+    /*void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
-    }
+    }*/
 
     void Movement()
     {
