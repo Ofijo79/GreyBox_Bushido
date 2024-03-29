@@ -43,11 +43,14 @@ public class EnemyIA : MonoBehaviour
 
     [SerializeField] float attackRange = 5;
 
+    Animator _animator;
+
     // Start is called before the first frame update
     void Awake()
     {
         enemyAgent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        _animator = GetComponent<Animator>();
     }
 
     void Start()
@@ -86,6 +89,7 @@ public class EnemyIA : MonoBehaviour
 
     void Patrol()
     {    
+        _animator.SetBool("TenguPatrolling", true);
         if(enemyAgent.remainingDistance < 0.5f)
         {
             //SetRandomPoint();
@@ -150,6 +154,7 @@ public class EnemyIA : MonoBehaviour
 
     IEnumerator Esperar()
     {
+        _animator.SetBool("TenguStop", true);
         repeat = false;
         yield return new WaitForSeconds (5);
         GotoNextPoint();
