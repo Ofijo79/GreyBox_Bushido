@@ -2145,6 +2145,23 @@ CapsuleCollider:
   m_Height: 6.06
   m_Direction: 1
   m_Center: {x: 0, y: 2.9, z: -0.21}
+--- !u!114 &337773319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 337773313}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39d50a00c6a74a24eb4f2dc22f57a091, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRadius: 5
+  timeBetweenAttacks: 1.5
+  numberOfAttacks: 3
+  player: {fileID: 965920652}
+  _animator: {fileID: 337773315}
 --- !u!1 &340168449 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 401122468259050895, guid: b3f0f1b55ceccd44792e0af26773100f, type: 3}
@@ -16623,6 +16640,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2352272465676470988, guid: b3f0f1b55ceccd44792e0af26773100f, type: 3}
+--- !u!1 &965920652 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6385620451596043486, guid: 3f77e011bd756204ab5e7b8ecde8aeb7, type: 3}
+  m_PrefabInstance: {fileID: 5535274356413038322}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &967998363
 GameObject:
   m_ObjectHideFlags: 0
@@ -23532,6 +23554,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 83d57b1eecfc91b48a53c8a63978b20c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 337773315}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 83d57b1eecfc91b48a53c8a63978b20c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 337773319}
   m_SourcePrefab: {fileID: 100100000, guid: 83d57b1eecfc91b48a53c8a63978b20c, type: 3}
 --- !u!1 &1809983825 stripped
 GameObject:

@@ -45,12 +45,15 @@ public class EnemyIA : MonoBehaviour
 
     Animator _animator;
 
+    //EnemyCombo _combo;
+
     // Start is called before the first frame update
     void Awake()
     {
         enemyAgent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         _animator = GetComponent<Animator>();
+        //_combo = GetComponent<EnemyCombo>();
     }
 
     void Start()
@@ -163,7 +166,7 @@ public class EnemyIA : MonoBehaviour
     }
     void Attacking()
     {
-        Debug.Log("Attacking");
+        //_combo.StartCombo();
         currentState = State.Chasing;
     }
 
