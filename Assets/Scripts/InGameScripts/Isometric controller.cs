@@ -173,6 +173,10 @@ public class Isometriccontroller : MonoBehaviour
             canClick = true;
             buttonQuantity = 0;
         }
+        else if(_resistance.actualResistance == 0f)
+        {
+            _animator.SetInteger("attack", 0);
+        }
         else
         {
             _animator.SetInteger("attack", 0);

@@ -11,7 +11,7 @@ public class ResistencePlayer : MonoBehaviour
     public float resistenceXHit = 10f;
     public Slider sliderResistence; 
 
-    private float actualResistance;
+    public float actualResistance;
 
     public float velocityRegeneration = 10f;
 
