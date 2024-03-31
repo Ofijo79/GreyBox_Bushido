@@ -52,12 +52,16 @@ public class Isometriccontroller : MonoBehaviour
     private bool isDashing = false;
     bool isInvulnerable = false;
 
+    //Resistencia
+    private ResistencePlayer _resistance;
+
     // Start is called before the first frame update
     void Start()
     {
         _controller = GetComponent<CharacterController>();
         _animator = GetComponentInChildren<Animator>();
         _lookAtTransform = GameObject.Find("LookAt").transform;
+        _resistance = GetComponent<ResistencePlayer>();
         _camera = Camera.main.transform;
         buttonQuantity = 0;
         canClick = true;
@@ -131,6 +135,7 @@ public class Isometriccontroller : MonoBehaviour
         if(buttonQuantity == 1)
         {
             _animator.SetInteger("attack", 1);
+            _resistance.Hit();
         }
     }
 
@@ -148,6 +153,7 @@ public class Isometriccontroller : MonoBehaviour
         {
             _animator.SetInteger("attack", 2);
             canClick = true;
+            _resistance.Hit();
         }
         else if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack2") && buttonQuantity == 2)
         {
@@ -159,8 +165,15 @@ public class Isometriccontroller : MonoBehaviour
         {
             _animator.SetInteger("attack", 3);
             canClick = true;
+            _resistance.Hit();
         }
-        else if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack3"))
+        else if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack3") && buttonQuantity == 3)
+        {
+            _animator.SetInteger("attack", 0);
+            canClick = true;
+            buttonQuantity = 0;
+        }
+        else
         {
             _animator.SetInteger("attack", 0);
             canClick = true;
@@ -218,26 +231,30 @@ public class Isometriccontroller : MonoBehaviour
         }*/
 
         //Vector3 direction = new Vector3(_horizontal, 0, _vertical);
-        direction = new Vector3(_horizontal, 0, _vertical);
+        //if (Input.GetKeyDown(KeyCode.LeftShift))
+        //{
+            direction = new Vector3(_horizontal, 0, _vertical);
         
-        _animator.SetFloat("VelX", 0);
-        _animator.SetFloat("VelZ", direction.magnitude);
-        
-        if(direction != Vector3.zero)
-        {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +  _camera.eulerAngles.y;
+            _animator.SetFloat("VelX", 0);
+            _animator.SetFloat("VelZ", direction.magnitude);
+            
+            if(direction != Vector3.zero)
+            {
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +  _camera.eulerAngles.y;
 
-            Vector3 moveDirection = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
-            _controller.Move(moveDirection.normalized * _playerSpeed * Time.deltaTime);
-        }
-        
-        Vector3 move = new Vector3(0, _vertical, _horizontal).normalized;
+                Vector3 moveDirection = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+                _controller.Move(moveDirection.normalized * _playerSpeed * Time.deltaTime);
+            }
+            
+            Vector3 move = new Vector3(0, _vertical, _horizontal).normalized;
 
-        xAxis.Update(Time.deltaTime);
-        yAxis.Update(Time.deltaTime);
+            xAxis.Update(Time.deltaTime);
+            yAxis.Update(Time.deltaTime);
 
-        transform.rotation = Quaternion.Euler(0, yAxis.Value, 0);
-        _lookAtTransform.eulerAngles = new Vector3(yAxis.Value, transform.eulerAngles.y, 0);
+            transform.rotation = Quaternion.Euler(0, yAxis.Value, 0);
+            _lookAtTransform.eulerAngles = new Vector3(yAxis.Value, transform.eulerAngles.y, 0);
+            _resistance.MovementRes();
+        //}        
     }
 
     void Jump()
