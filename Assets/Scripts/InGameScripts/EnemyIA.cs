@@ -18,7 +18,7 @@ public class EnemyIA : MonoBehaviour
 
     UnityEngine.AI.NavMeshAgent enemyAgent;
 
-    Transform playerTransform;
+    public Transform playerTransform;
 
     [SerializeField] Transform  patrolAreaCenter;
     
@@ -51,7 +51,7 @@ public class EnemyIA : MonoBehaviour
     void Awake()
     {
         enemyAgent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        //playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         _animator = GetComponent<Animator>();
         //_combo = GetComponent<EnemyCombo>();
     }
@@ -107,6 +107,7 @@ public class EnemyIA : MonoBehaviour
 
     void Chase()
     {
+        _animator.SetBool("TenguPatrolling", true);
         enemyAgent.destination = playerTransform.position;
 
         if(OnRange() == false)
@@ -122,6 +123,7 @@ public class EnemyIA : MonoBehaviour
 
     void Search()
     {
+        _animator.SetBool("TenguPatrolling", true);
         if(OnRange() == true)
         {
             searchTimer = 0;
@@ -167,6 +169,7 @@ public class EnemyIA : MonoBehaviour
     void Attacking()
     {
         //_combo.StartCombo();
+        _animator.SetBool("AttackTengu", true);
         currentState = State.Chasing;
     }
 
