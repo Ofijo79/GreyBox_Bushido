@@ -91,7 +91,8 @@ public class EnemyIA : MonoBehaviour
     }
 
     void Patrol()
-    {    
+    {
+        _animator.SetBool("TenguStop", false);
         _animator.SetBool("TenguPatrolling", true);
         if(enemyAgent.remainingDistance < 0.5f)
         {
@@ -107,6 +108,7 @@ public class EnemyIA : MonoBehaviour
 
     void Chase()
     {
+        _animator.SetBool("TenguStop", false);
         _animator.SetBool("TenguPatrolling", true);
         enemyAgent.destination = playerTransform.position;
 
@@ -123,6 +125,7 @@ public class EnemyIA : MonoBehaviour
 
     void Search()
     {
+        _animator.SetBool("TenguStop", false);
         _animator.SetBool("TenguPatrolling", true);
         if(OnRange() == true)
         {
@@ -159,6 +162,7 @@ public class EnemyIA : MonoBehaviour
 
     IEnumerator Esperar()
     {
+        _animator.SetBool("TenguPatrolling", false);
         _animator.SetBool("TenguStop", true);
         repeat = false;
         yield return new WaitForSeconds (5);

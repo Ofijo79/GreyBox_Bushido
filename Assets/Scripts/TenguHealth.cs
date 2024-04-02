@@ -5,19 +5,50 @@ using UnityEngine.UI;
 
 public class TenguHealth : MonoBehaviour
 {
-    public int hp;
-    public int katanaDMG;
+    public int maxHealth = 100;
+    private int currentHealth;
 
-    private void OnTriggerEnter(Collider other)
+    public Slider healthSlider;
+    // Start is called before the first frame update
+    void Start()
     {
-        if(other.gameObject.tag == "Katana")
+        currentHealth = maxHealth;
+
+        if (healthSlider == null)
         {
-            hp -= katanaDMG;
+            healthSlider = GetComponentInChildren<Slider>();
+            if (healthSlider != null)
+            {
+                healthSlider.maxValue = maxHealth;
+                healthSlider.value = maxHealth;
+            }
+        }
+    }
+
+    public void TakeDamage(int amount)
+    {
+        currentHealth -= amount;
+
+        if (healthSlider != null)
+        {
+            healthSlider.value = currentHealth;
+            ActualizeHealth();
         }
 
-        if(hp <= 0)
+        if (currentHealth <= 0)
         {
-            Destroy(gameObject);
+            ActualizeHealth();
+            Die();
         }
+    }
+
+    void Die()
+    {
+        Destroy(gameObject);
+    }
+
+    void ActualizeHealth()
+    {
+        healthSlider.value = currentHealth / maxHealth;
     }
 }
