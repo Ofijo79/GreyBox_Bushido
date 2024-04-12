@@ -80,9 +80,14 @@ public class Isometriccontroller : MonoBehaviour
         
         Movement();
 
+        if(Input.GetKey(KeyCode.LeftShift) && _resistance.actualResistance > 0)
+        {
+            Sprint();
+        }
+
         Jump();
 
-        if(Input.GetKeyDown("e"))
+        if(Input.GetKeyDown("e") && _resistance.actualResistance > 0)
         {
             Combo();
         }
@@ -132,10 +137,10 @@ public class Isometriccontroller : MonoBehaviour
             buttonQuantity++;
         }
 
-        if(buttonQuantity == 1)
+        if(buttonQuantity == 1 && _resistance.actualResistance > 0)
         {
             _animator.SetInteger("attack", 1);
-            _resistance.Hit();
+            _resistance.takeResistance();
         }
     }
 
@@ -147,13 +152,13 @@ public class Isometriccontroller : MonoBehaviour
         {
             _animator.SetInteger("attack", 0);
             canClick = true;
-            buttonQuantity = 0;
+            buttonQuantity = 0;            
         }
         else if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") && buttonQuantity >= 2)
         {
             _animator.SetInteger("attack", 2);
             canClick = true;
-            _resistance.Hit();
+            _resistance.takeResistance();
         }
         else if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack2") && buttonQuantity == 2)
         {
@@ -165,25 +170,22 @@ public class Isometriccontroller : MonoBehaviour
         {
             _animator.SetInteger("attack", 3);
             canClick = true;
-            _resistance.Hit();
+            _resistance.takeResistance();
         }
-        else if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack3") && buttonQuantity == 3)
+        else if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack3"))
         {
             _animator.SetInteger("attack", 0);
             canClick = true;
             buttonQuantity = 0;
-        }
-        else if(_resistance.actualResistance == 0f)
-        {
-            _animator.SetInteger("attack", 0);
-        }
-        else
+        }  
+        else if(_resistance.actualResistance == 0)
         {
             _animator.SetInteger("attack", 0);
             canClick = true;
             buttonQuantity = 0;
-        }
+        } 
     }
+
 
     /*void StopAttack()
     {
@@ -258,7 +260,33 @@ public class Isometriccontroller : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, yAxis.Value, 0);
             _lookAtTransform.eulerAngles = new Vector3(yAxis.Value, transform.eulerAngles.y, 0);
             _resistance.MovementRes();
+            _playerSpeed = 4;
         //}        
+    }
+    void Sprint()
+    {
+        direction = new Vector3(_horizontal, 0, _vertical);
+        
+            _animator.SetFloat("VelX", 0);
+            _animator.SetFloat("VelZ", direction.magnitude);
+            
+            if(direction != Vector3.zero)
+            {
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +  _camera.eulerAngles.y;
+
+                Vector3 moveDirection = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+                _controller.Move(moveDirection.normalized * _playerSpeed * Time.deltaTime);
+            }
+            
+            Vector3 move = new Vector3(0, _vertical, _horizontal).normalized;
+
+            xAxis.Update(Time.deltaTime);
+            yAxis.Update(Time.deltaTime);
+
+            transform.rotation = Quaternion.Euler(0, yAxis.Value, 0);
+            _lookAtTransform.eulerAngles = new Vector3(yAxis.Value, transform.eulerAngles.y, 0);
+            _resistance.MovementRes();
+            _playerSpeed = 7;
     }
 
     void Jump()

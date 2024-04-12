@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class ResistencePlayer : MonoBehaviour
 {
-
-    public float resistenceInitial = 100f;
+public float resistenceInitial = 100f;
     public float velocityRunning = 1f;
     public float resistenceXHit = 10f;
     public Slider sliderResistence; 
@@ -33,7 +32,7 @@ public class ResistencePlayer : MonoBehaviour
         RestartResistance();
     }
 
-    public void Hit()
+    public void takeResistance()
     {
         actualResistance -= resistenceXHit;
         actualResistance = Mathf.Max(0, actualResistance);
@@ -72,6 +71,6 @@ public class ResistencePlayer : MonoBehaviour
 
     void ResetTime()
     {
-        tiemeWithoutActivity = 0f;
+        tiemeWithoutActivity = 0.5f;
     }
 }
